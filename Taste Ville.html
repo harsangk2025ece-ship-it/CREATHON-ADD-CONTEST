@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineDelight - Single Page Application</title>
+    <style>
+        /* --- General Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #34495e;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #e74c3c;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        /* --- Section Styling (The "Pages") --- */
+        .page-section {
+            display: none; /* All pages are hidden by default */
+            padding: 20px 0;
+        }
+
+        .page-section.active {
+            display: block; /* Only the active page is shown */
+        }
+
+        h2 {
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        /* --- Food List Table Styling --- */
+        #foodlist-page table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        #foodlist-page th, #foodlist-page td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #foodlist-page th {
+            background-color: #f0f0f0;
+            color: #34495e;
+        }
+
+        .price {
+            text-align: right;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* --- Form and Feedback Styling --- */
+        #feedback-form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #feedback-form input[type="text"],
+        #feedback-form input[type="email"],
+        #feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #feedback-form button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #feedback-form button:hover {
+            background-color: #27ae60;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+            display: none;
+            margin-bottom: 5px;
+        }
+
+        #feedback-output {
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        .submitted-feedback {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #ecf0f1;
+            border-left: 5px solid #2ecc71;
+            border-radius: 4px;
+        }
+
+        .feedback-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TASTE VILLE🍲</h1>
+        <p>Your ultimate dining experience.</p>
+    </header>
+
+    <nav>
+        <a href="#home" class="nav-link active" data-page="home-page">🏠 Home</a>
+        <a href="#foodlist" class="nav-link" data-page="foodlist-page">📋 Food List</a>
+        <a href="#packages" class="nav-link" data-page="packages-page">🎁 Packages</a>
+        <a href="#feedback" class="nav-link" data-page="feedback-page">💬 Feedback</a>
+    </nav>
+
+    <main class="container">
+
+        <section id="home-page" class="page-section active">
+            <h2>Welcome to DineDelight!</h2>
+            <p>We are dedicated to providing the freshest ingredients and a delightful dining experience. Explore our menu and special packages, and let us know what you think!</p>
+            <p>Thank you for choosing us.</p>
+        </section>
+
+        <section id="foodlist-page" class="page-section">
+            <h2>📋 Our Food Menu</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Spicy Tofu Curry</td>
+                        <td>Tofu in a rich coconut milk curry with ginger and chili.</td>
+                        <td class="price">$14.99</td>
+                    </tr>
+                    <tr>
+                        <td>Gourmet Pasta</td>
+                        <td>Homemade fettuccine with sun-dried tomato cream sauce.</td>
+                        <td class="price">$16.50</td>
+                    </tr>
+                    <tr>
+                        <td>Grilled Salmon</td>
+                        <td>Perfectly grilled salmon served with asparagus and lemon butter.</td>
+                        <td class="price">$22.00</td>
+                    </tr>
+                    <tr>
+                        <td>Chocolate Lava Cake</td>
+                        <td>Warm chocolate cake with a molten center, served with vanilla ice cream.</td>
+                        <td class="price">$8.50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="packages-page" class="page-section">
+            <h2>🎁 Special Catering Packages</h2>
+            
+            <h3>The Celebration Package</h3>
+            <p>Perfect for birthdays and small events (up to 20 guests). Includes three main courses, two desserts, and non-alcoholic beverages.</p>
+            <ul>
+                <li>Price: **$399.00**</li>
+                <li>Customization available upon request.</li>
+            </ul>
+            
+            <h3>The Corporate Package</h3>
+            <p>Designed for business lunches and corporate events. Light and quick-to-serve options, including premium sandwiches and salads.</p>
+            <ul>
+                <li>Price: **$19.99 per person**</li>
+                <li>Minimum 10 persons.</li>
+            </ul>
+        </section>
+
+        <section id="feedback-page" class="page-section">
+            <h2>💬 Customer Feedback</h2>
+            
+            <form id="feedback-form">
+                <div>
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <p id="name-error" class="error-message">Name is required (min 2 characters).</p>
+                </div>
+
+                <div>
+                    <label for="email">Email (Optional):</label>
+                    <input type="email" id="email" name="email">
+                    <p id="email-error" class="error-message">Please enter a valid email address if provided.</p>
+                </div>
+
+                <div>
+                    <label for="comments">Comments/Suggestions:</label>
+                    <textarea id="comments" name="comments" rows="5" required></textarea>
+                    <p id="comments-error" class="error-message">Comments are required (min 10 characters).</p>
+                </div>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+
+            <div id="feedback-output">
+                <h3>Recent Submissions:</h3>
+                </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageSections = document.querySelectorAll('.page-section');
+            const feedbackForm = document.getElementById('feedback-form');
+            const feedbackOutput = document.getElementById('feedback-output');
+
+            // --- 1. Navigation Logic (SPA simulation) ---
+            const switchPage = (pageId) => {
+                // Hide all sections
+                pageSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show the target section
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Update active link style
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // Set up click listeners for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.target.getAttribute('data-page');
+                    switchPage(pageId);
+                });
+            });
+
+            // Handle page load for hash links (optional but good practice)
+            const initialHash = window.location.hash.substring(1); // e.g., 'home'
+            const initialPageId = initialHash ? `${initialHash}-page` : 'home-page';
+            switchPage(initialPageId);
+
+
+            // --- 2. Validation and Feedback Logic ---
+
+            const validateName = (name) => name.trim().length >= 2;
+            const validateComments = (comments) => comments.trim().length >= 10;
+            const validateEmail = (email) => {
+                if (email.trim() === '') return true; // Email is optional
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            };
+
+            feedbackForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const commentsInput = document.getElementById('comments');
+
+                const name = nameInput.value;
+                const email = emailInput.value;
+                const comments = commentsInput.value;
+
+                let isValid = true;
+
+                // Name Validation
+                const isNameValid = validateName(name);
+                document.getElementById('name-error').style.display = isNameValid ? 'none' : 'block';
+                if (!isNameValid) isValid = false;
+
+                // Email Validation
+                const isEmailValid = validateEmail(email);
+                document.getElementById('email-error').style.display = isEmailValid ? 'none' : 'block';
+                if (!isEmailValid) isValid = false;
+
+                // Comments Validation
+                const isCommentsValid = validateComments(comments);
+                document.getElementById('comments-error').style.display = isCommentsValid ? 'none' : 'block';
+                if (!isCommentsValid) isValid = false;
+
+                // Handle Valid Submission (DOM Manipulation)
+                if (isValid) {
+                    // Create and style the new feedback element
+                    const feedbackDiv = document.createElement('div');
+                    feedbackDiv.classList.add('submitted-feedback');
+
+                    const userDisplay = email ? `${name} (${email})` : name;
+                    
+                    feedbackDiv.innerHTML = `
+                        <div class="feedback-name">${userDisplay}</div>
+                        <p>${comments}</p>
+                        <small>Submitted: ${new Date().toLocaleString()}</small>
+                    `;
+
+                    // Insert the new feedback at the beginning of the output list
+                    const recentSubmissionsHeading = feedbackOutput.querySelector('h3');
+                    feedbackOutput.insertBefore(feedbackDiv, recentSubmissionsHeading.nextSibling);
+
+                    feedbackForm.reset();
+                    alert('Feedback successfully submitted!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
